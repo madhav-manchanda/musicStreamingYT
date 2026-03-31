@@ -1,0 +1,272 @@
+/* ═══════════════════════════════════════════════════════════════
+   🩸 DREADFLOW — Brutalist Horror Terminal Theme
+   ═══════════════════════════════════════════════════════════════ */
+
+[data-theme="dreadflow"] {
+  /* ─── Brand & Typography ─── */
+  --font-display: 'Creepster', cursive;
+  --font-body: 'VT323', 'Special Elite', 'Courier New', Courier, monospace;
+
+  /* ─── Backgrounds (Void Green/Black) ─── */
+  --bg-primary: #050705;
+  --bg-secondary: #0a0e0a;
+  --bg-sidebar: #040604;
+  --bg-player: #030403;
+  --bg-topbar: rgba(5, 7, 5, 0.95);
+  --bg-card: rgba(15, 20, 15, 0.8);
+  --bg-card-hover: rgba(25, 30, 25, 0.9);
+  --bg-hover: rgba(34, 197, 94, 0.08); /* Faint neon green glow */
+  --bg-active: rgba(230, 0, 0, 0.15);  /* Red highlight */
+  --bg-progress: rgba(255, 255, 255, 0.1);
+
+  /* ─── Accent Colors ─── */
+  --accent-primary: #e60000;      /* Bloody Red */
+  --accent-secondary: #22c55e;    /* Neon Green (hover, active metrics) */
+  --accent-tertiary: #1a4d1a;
+  --accent-gradient: linear-gradient(135deg, #e60000, #990000);
+  --accent-glow: rgba(230, 0, 0, 0.2);
+
+  /* ─── Text ─── */
+  --text-primary: #c8d8c8;        /* Pale sickly terminal green-grey */
+  --text-secondary: #8a9c8a;
+  --text-muted: #5e6b5e;
+  --text-gradient: linear-gradient(135deg, #e60000, #ff3333);
+
+  /* ─── Borders ─── */
+  --border-color: #223322;
+  --border-subtle: #111a11;
+
+  /* ─── Glow Effects (Harsh Brutalist Shadows) ─── */
+  --glow-sm: 0 4px 0px rgba(0, 0, 0, 0.8);
+  --glow-md: 0 8px 0px rgba(0, 0, 0, 0.9);
+  --glow-lg: 0 12px 0px rgba(0, 0, 0, 1);
+  --card-shadow: 4px 4px 0px rgba(0, 0, 0, 1);
+
+  /* ─── Hero ─── */
+  --hero-gradient: linear-gradient(135deg, #110505 0%, #050705 100%);
+  --hero-overlay: linear-gradient(to top, #050705, transparent);
+
+  /* ─── Playlist ─── */
+  --playlist-header-bg: linear-gradient(to bottom, rgba(230, 0, 0, 0.1), transparent);
+
+  /* ─── Scrollbar ─── */
+  --scrollbar-thumb: #223322;
+  --scrollbar-hover: #e60000;
+}
+
+/* =========================================================================
+   STRUCTURAL OVERRIDES FOR DREADFLOW BRUTALISM
+   ========================================================================= */
+
+/* 1. Global Monospace override and hard edges */
+[data-theme="dreadflow"] * {
+  border-radius: 0 !important;
+}
+
+[data-theme="dreadflow"] body {
+  font-family: var(--font-body) !important;
+  text-transform: uppercase;
+}
+
+/* 2. Top Bar Dashed Red Tracking Line */
+[data-theme="dreadflow"] .top-bar {
+  border-top: 2px dashed var(--accent-primary) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+/* 3. Search Bar Brutalism */
+[data-theme="dreadflow"] .search-bar input {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  box-shadow: none !important;
+  font-family: var(--font-body) !important;
+  transition: all 0.2s !important;
+}
+[data-theme="dreadflow"] .search-bar input:focus {
+  border-bottom: 2px solid var(--accent-secondary) !important;
+}
+
+/* 4. Sidebar Styles (Neon green highlights) */
+[data-theme="dreadflow"] .nav-item.active {
+  color: var(--accent-secondary) !important;
+  background: transparent !important;
+  border-left: 4px solid var(--accent-secondary) !important;
+}
+[data-theme="dreadflow"] .nav-item:hover {
+  color: var(--text-primary) !important;
+}
+[data-theme="dreadflow"] .sidebar-section-title {
+  color: var(--accent-primary) !important;
+}
+
+[data-theme="dreadflow"] .playlist-item::before {
+  content: "+ ";
+  color: var(--text-muted);
+  margin-right: 2px;
+}
+[data-theme="dreadflow"] .playlist-item-icon {
+  display: none !important; /* Hide original icons */
+}
+
+/* 5. Play Button (Squared off and glowing) */
+[data-theme="dreadflow"] .play-btn {
+  background: var(--accent-primary) !important;
+  border: 1px solid #111 !important;
+  color: #111 !important;
+  box-shadow: 0 0 15px rgba(230, 0, 0, 0.4) !important;
+  border-radius: 0 !important;
+}
+[data-theme="dreadflow"] .play-btn:hover {
+  box-shadow: 0 0 25px rgba(230, 0, 0, 0.8) !important;
+  transform: none !important;
+  background: #ff0000 !important;
+}
+
+/* 6. Progress and Volume Bars */
+[data-theme="dreadflow"] .progress-bar-container,
+[data-theme="dreadflow"] .volume-slider {
+  height: 2px !important;
+  background: #223322 !important;
+  border-radius: 0 !important;
+}
+[data-theme="dreadflow"] .progress-bar {
+  background: var(--accent-primary) !important;
+  border-radius: 0 !important;
+}
+[data-theme="dreadflow"] .progress-bar::after {
+  width: 6px !important;
+  height: 12px !important;
+  background: #fff !important;
+  right: -3px !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+[data-theme="dreadflow"] .progress-bar-container:hover .progress-bar::after {
+  transform: translateY(-50%) scale(1.1) !important;
+}
+
+[data-theme="dreadflow"] .volume-fill {
+  background: var(--accent-secondary) !important; /* Green volume */
+  border-radius: 0 !important;
+}
+
+/* 7. Typography specific overrides */
+[data-theme="dreadflow"] .section-title,
+[data-theme="dreadflow"] .queue-title,
+[data-theme="dreadflow"] .queue-now-playing-label {
+  color: var(--accent-primary) !important;
+  letter-spacing: 2px;
+}
+[data-theme="dreadflow"] .queue-now-playing {
+  border: 1px solid var(--accent-primary) !important;
+  box-shadow: inset 0 0 20px rgba(230, 0, 0, 0.05) !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+[data-theme="dreadflow"] .queue-track.playing .queue-track-title {
+  color: var(--accent-primary) !important;
+}
+
+/* 8. Text Input / Modals */
+[data-theme="dreadflow"] .modal-input {
+  background: transparent !important;
+  border-bottom: 2px solid var(--accent-primary) !important;
+  text-transform: uppercase;
+  border-radius: 0 !important;
+}
+
+/* 9. Images (No border radius) */
+[data-theme="dreadflow"] img,
+[data-theme="dreadflow"] .song-card,
+[data-theme="dreadflow"] .song-card-img-wrapper,
+[data-theme="dreadflow"] .playlist-card {
+  border-radius: 0 !important;
+}
+
+/* 10. Player Bar Typography (Left Side) */
+[data-theme="dreadflow"] .player-song-title {
+  font-family: var(--font-display) !important;
+  font-size: 20px !important;
+  letter-spacing: 1.5px;
+  color: var(--accent-primary) !important;
+}
+[data-theme="dreadflow"] .player-song-artist {
+  text-transform: uppercase;
+}
+
+/* 11. Custom Track Styling */
+[data-theme="dreadflow"] .track-row-number {
+  color: var(--accent-primary) !important;
+}
+
+/* General button hovers */
+[data-theme="dreadflow"] .btn {
+  border-radius: 0 !important;
+  text-transform: uppercase;
+  font-family: var(--font-body) !important;
+}
+
+/* Base custom cursor for Dreadflow */
+[data-theme="dreadflow"],
+[data-theme="dreadflow"] * {
+  cursor: none !important;
+}
+
+/* Custom interactive circular cursor */
+[data-theme="dreadflow"] body::after {
+  content: "";
+  position: fixed;
+  top: var(--cursor-y, -100px);
+  left: var(--cursor-x, -100px);
+  width: 12px;
+  height: 12px;
+  background-color: #ffcc00;
+  border-radius: 100% !important;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: color-dodge;
+  transition: width 0.15s, height 0.15s, background-color 0.15s, opacity 0.0s;
+  box-shadow: 0 0 15px #ffcc00;
+}
+
+/* Hover state for cursor when interacting */
+html[data-cursor-hover="true"][data-theme="dreadflow"] body::after {
+  width: 24px;
+  height: 24px;
+  background-color: var(--accent-secondary);
+  box-shadow: 0 0 10px var(--accent-secondary);
+  mix-blend-mode: screen;
+}
+
+/* Blinking Eye Animation */
+@keyframes dreadBlink {
+  0%, 96%, 100% { transform: scaleY(1); }
+  98% { transform: scaleY(0.1); }
+}
+[data-theme="dreadflow"] .sidebar-logo {
+  gap: 12px;
+}
+[data-theme="dreadflow"] .sidebar-logo-icon {
+  width: 32px;
+  height: 32px;
+  background: transparent !important;
+  box-shadow: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+[data-theme="dreadflow"] .sidebar-logo-icon svg {
+  width: 28px;
+  height: 28px;
+  animation: dreadBlink 5s infinite;
+  color: var(--accent-primary);
+  filter: drop-shadow(0 0 6px rgba(230, 0, 0, 0.6));
+}
+[data-theme="dreadflow"] .sidebar-logo-text {
+  color: var(--accent-primary) !important;
+  font-family: var(--font-display) !important;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0px #000;
+}
