@@ -61,10 +61,30 @@ function _renderTopBar() {
       <input type="text" id="search-input" placeholder="${theme === 'dreadflow' ? 'Search artists, songs, podcasts...' : 'What do you want to play?'}" value="${state.searchQuery}" />
     </div>
     <div class="top-bar-right">
+      <a href="https://forms.gle/hdTFXiSm79Zjiae88" target="_blank" class="feedback-btn" id="feedback-link">
+        <div class="feedback-btn-icon">
+          <img src="/frontend/assets/image.png" alt="Feedback" />
+        </div>
+        <span class="feedback-btn-text">Drop a suggestion</span>
+      </a>
       <button class="theme-toggle-btn" id="theme-toggle" title="${themeLabel}">${themeIcon}</button>
       <div class="user-avatar" title="User">U</div>
     </div>
   `;
+
+  // Feedback nudge animation
+  const feedbackBtn = topBar.querySelector('.feedback-btn');
+  const triggerNudge = () => {
+    feedbackBtn.classList.add('nudge');
+    setTimeout(() => feedbackBtn.classList.remove('nudge'), 2000);
+  };
+  
+  // Nudge every 45 seconds to encourage feedback
+  if (!window.feedbackInterval) {
+    window.feedbackInterval = setInterval(triggerNudge, 45000);
+    // Initial nudge after 5 seconds
+    setTimeout(triggerNudge, 5000);
+  }
 
   // Search input
   const searchInput = topBar.querySelector('#search-input');
