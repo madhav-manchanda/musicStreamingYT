@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from ytmusicapi import YTMusic
 import yt_dlp
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s", force=True)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Music API", version="2.0.0", docs_url="/docs")
