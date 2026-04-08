@@ -3,7 +3,7 @@ const config = require('../config');
 
 class JioSaavnService {
   constructor() {
-    // Ensure baseUrl ends with '/' for correct axios path resolution
+    
     this.baseUrl = config.jiosaavnApiUrl.replace(/\/?$/, '/');
     this.client = axios.create({
       baseURL: this.baseUrl,
@@ -11,13 +11,7 @@ class JioSaavnService {
     });
   }
 
-  /**
-   * Search for songs by query
-   * @param {string} query - Search term
-   * @param {boolean} lyrics - Include lyrics (default: false)
-   * @param {boolean} songdata - Include full song data (default: true)
-   * @returns {Promise<Array>} Array of song objects
-   */
+  
   async searchSongs(query, lyrics = false, songdata = true) {
     try {
       const response = await this.client.get('song/', {
@@ -30,12 +24,7 @@ class JioSaavnService {
     }
   }
 
-  /**
-   * Get a specific song by its ID
-   * @param {string} songId - JioSaavn song ID
-   * @param {boolean} lyrics - Include lyrics
-   * @returns {Promise<Object>} Song object
-   */
+  
   async getSongById(songId, lyrics = false) {
     try {
       const response = await this.client.get('song/get', {
@@ -51,12 +40,7 @@ class JioSaavnService {
     }
   }
 
-  /**
-   * Get album details
-   * @param {string} query - Album URL or ID
-   * @param {boolean} lyrics - Include lyrics
-   * @returns {Promise<Object>} Album object
-   */
+  
   async getAlbum(query, lyrics = false) {
     try {
       const response = await this.client.get('album/', {
@@ -69,12 +53,7 @@ class JioSaavnService {
     }
   }
 
-  /**
-   * Get playlist details
-   * @param {string} query - Playlist URL or ID
-   * @param {boolean} lyrics - Include lyrics
-   * @returns {Promise<Object>} Playlist object
-   */
+  
   async getPlaylist(query, lyrics = false) {
     try {
       const response = await this.client.get('playlist/', {
@@ -87,11 +66,7 @@ class JioSaavnService {
     }
   }
 
-  /**
-   * Get song lyrics
-   * @param {string} query - Song URL, link, or lyrics ID
-   * @returns {Promise<Object>} Lyrics object
-   */
+  
   async getLyrics(query) {
     try {
       const response = await this.client.get('lyrics/', {
@@ -104,10 +79,7 @@ class JioSaavnService {
     }
   }
 
-  /**
-   * Health check for JioSaavn API
-   * @returns {Promise<Object>} Health status
-   */
+  
   async ping() {
     try {
       const response = await this.client.get('ping');
@@ -117,12 +89,7 @@ class JioSaavnService {
     }
   }
 
-  /**
-   * Get the direct streaming URL for a song
-   * @param {string} songId - JioSaavn song ID
-   * @param {string} quality - 'high' for 320kbps, 'low' for 96kbps preview
-   * @returns {Promise<string>} Direct media URL
-   */
+  
   async getStreamUrl(songId, quality = 'high') {
     const song = await this.getSongById(songId);
     if (!song) throw new Error('Song not found');
@@ -136,7 +103,7 @@ class JioSaavnService {
     throw new Error('No streaming URL available for this song');
   }
 
-  // ─── Normalization helpers ───────────────────────────────────
+  
 
   _normalizeSongs(songs) {
     if (!Array.isArray(songs)) return [];
@@ -202,7 +169,7 @@ class JioSaavnService {
 
   _getHighResImage(imageUrl) {
     if (!imageUrl) return '';
-    // Replace 150x150 or 50x50 with 500x500 for high-res
+    
     return imageUrl.replace(/\d+x\d+/, '500x500');
   }
 }

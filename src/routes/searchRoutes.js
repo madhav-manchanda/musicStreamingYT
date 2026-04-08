@@ -2,10 +2,6 @@ const express = require('express');
 const router = express.Router();
 const musicService = require('../services/musicService');
 
-/**
- * GET /api/search?q=...
- * Search for songs via YouTube Music
- */
 router.get('/', async (req, res, next) => {
   try {
     const { q } = req.query;

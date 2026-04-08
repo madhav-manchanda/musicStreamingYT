@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const musicService = require('../services/musicService');
 
-// Curated trending queries to populate the home page
 const TRENDING_QUERIES = [
   'Arijit Singh',
   'trending hindi songs',
@@ -11,10 +10,6 @@ const TRENDING_QUERIES = [
   'romantic songs',
 ];
 
-/**
- * GET /api/home/trending
- * Returns a curated list of trending/popular songs for the homepage
- */
 router.get('/trending', async (req, res, next) => {
   try {
     const trendingPromises = TRENDING_QUERIES.map(async (query) => {

@@ -18,9 +18,7 @@ class SpotifyScraperService {
     });
   }
 
-  /**
-   * Rate-limited page fetch
-   */
+  
   async _getPage(url) {
     try {
       await new Promise((resolve) => setTimeout(resolve, this.delay));
@@ -32,11 +30,7 @@ class SpotifyScraperService {
     }
   }
 
-  /**
-   * Scrape artist page for bio, top tracks, albums, monthly listeners
-   * @param {string} artistUrl - Spotify artist URL
-   * @returns {Promise<Object|null>}
-   */
+  
   async scrapeArtist(artistUrl) {
     console.log(`[SpotifyScraper] Scraping artist: ${artistUrl}`);
     const html = await this._getPage(artistUrl);
@@ -53,11 +47,7 @@ class SpotifyScraperService {
     };
   }
 
-  /**
-   * Scrape playlist page for tracks and followers
-   * @param {string} playlistUrl - Spotify playlist URL
-   * @returns {Promise<Object|null>}
-   */
+  
   async scrapePlaylist(playlistUrl) {
     console.log(`[SpotifyScraper] Scraping playlist: ${playlistUrl}`);
     const html = await this._getPage(playlistUrl);
@@ -72,13 +62,7 @@ class SpotifyScraperService {
     };
   }
 
-  /**
-   * Search Spotify for artists, albums, playlists, tracks
-   * @param {string} query - Search term
-   * @param {string} type - 'artist', 'album', 'playlist', 'track'
-   * @param {number} limit - Max results
-   * @returns {Promise<Array>}
-   */
+  
   async search(query, type = 'artist', limit = 20) {
     const searchUrl = `https://open.spotify.com/search/${type}/${encodeURIComponent(query)}`;
     console.log(`[SpotifyScraper] Searching for: ${query}`);
@@ -90,7 +74,7 @@ class SpotifyScraperService {
     return this._extractSearchResults($, type, limit);
   }
 
-  // ─── Extraction helpers ──────────────────────────────────────
+  
 
   _extractMonthlyListeners($) {
     const selectors = [

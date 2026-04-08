@@ -1,10 +1,5 @@
 import gsap from 'gsap';
 
-/**
- * GSAP Animation Presets for MelodyFlow / DreadFlow
- */
-
-/** Fade in and slide up */
 export function fadeIn(elements, options = {}) {
   return gsap.from(elements, {
     opacity: 0,
@@ -17,7 +12,6 @@ export function fadeIn(elements, options = {}) {
   });
 }
 
-/** Stagger card entrance */
 export function staggerCards(selector, options = {}) {
   const elements = document.querySelectorAll(selector);
   if (!elements.length) return;
@@ -33,7 +27,6 @@ export function staggerCards(selector, options = {}) {
   });
 }
 
-/** Slide in from left (sidebar) */
 export function slideInLeft(element, options = {}) {
   return gsap.from(element, {
     x: -260,
@@ -43,7 +36,6 @@ export function slideInLeft(element, options = {}) {
   });
 }
 
-/** Slide in from bottom (player bar) */
 export function slideInBottom(element, options = {}) {
   return gsap.from(element, {
     y: 90,
@@ -54,7 +46,6 @@ export function slideInBottom(element, options = {}) {
   });
 }
 
-/** Pulse glow effect on album art */
 export function pulseGlow(element) {
   return gsap.to(element, {
     boxShadow: 'var(--glow-lg)',
@@ -65,7 +56,6 @@ export function pulseGlow(element) {
   });
 }
 
-/** Album art entrance (now playing hero) */
 export function albumArtEntrance(element) {
   return gsap.from(element, {
     scale: 0.8,
@@ -76,7 +66,6 @@ export function albumArtEntrance(element) {
   });
 }
 
-/** View transition — fade out current, fade in new */
 export function viewTransition(container, renderFn) {
   const tl = gsap.timeline();
   tl.to(container, {
@@ -98,7 +87,6 @@ export function viewTransition(container, renderFn) {
   return tl;
 }
 
-/** Theme switch flash transition */
 export function themeTransition(overlay, onSwitch) {
   const tl = gsap.timeline();
   tl.to(overlay, {
@@ -115,7 +103,6 @@ export function themeTransition(overlay, onSwitch) {
   return tl;
 }
 
-/** Queue panel slide toggle */
 export function toggleQueuePanel(panel, show) {
   if (show) {
     panel.classList.remove('hidden');
@@ -139,7 +126,6 @@ export function toggleQueuePanel(panel, show) {
   }
 }
 
-/** Toast notification entrance/exit */
 export function showToast(container, message, duration = 2500) {
   const toast = document.createElement('div');
   toast.className = 'toast';
@@ -165,7 +151,6 @@ export function showToast(container, message, duration = 2500) {
   }, duration);
 }
 
-/** Track row stagger */
 export function staggerTracks(selector) {
   const rows = document.querySelectorAll(selector);
   if (!rows.length) return;
@@ -179,7 +164,6 @@ export function staggerTracks(selector) {
   });
 }
 
-/** Button press animation */
 export function buttonPress(element) {
   gsap.to(element, {
     scale: 0.92,
@@ -190,7 +174,6 @@ export function buttonPress(element) {
   });
 }
 
-/** Search bar expand animation */
 export function searchExpand(element) {
   gsap.from(element, {
     width: '200px',

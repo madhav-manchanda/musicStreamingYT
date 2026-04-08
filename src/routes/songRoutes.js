@@ -3,9 +3,6 @@ const router = express.Router();
 const musicService = require('../services/musicService');
 const streamService = require('../services/streamService');
 
-/**
- * GET /api/songs/search?q=...
- */
 router.get('/search', async (req, res, next) => {
   try {
     const { q } = req.query;
@@ -17,9 +14,6 @@ router.get('/search', async (req, res, next) => {
   }
 });
 
-/**
- * GET /api/songs/:id
- */
 router.get('/:id', async (req, res, next) => {
   try {
     const song = await musicService.getSongById(req.params.id);
@@ -30,16 +24,10 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-/**
- * GET /api/songs/:id/stream
- */
 router.get('/:id/stream', async (req, res) => {
   await streamService.streamSong(req.params.id, req, res);
 });
 
-/**
- * GET /api/songs/:id/lyrics
- */
 router.get('/:id/lyrics', async (_req, res) => {
   res.status(404).json({ error: 'Lyrics not available' });
 });

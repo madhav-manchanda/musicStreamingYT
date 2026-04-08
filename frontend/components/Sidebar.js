@@ -2,10 +2,6 @@ import { icons } from '../utils/helpers.js';
 import * as storage from '../services/storage.js';
 import { slideInLeft } from '../utils/animations.js';
 
-/**
- * Sidebar Component
- * Navigation, playlists, create playlist
- */
 export function renderSidebar(container, { onNavigate, onPlaylistSelect, onCreatePlaylist, activeView, theme }) {
   const playlists = storage.getPlaylists();
   const appName = theme === 'dreadflow' ? 'DreadFlow' : 'MelodyFlow';
@@ -48,7 +44,7 @@ export function renderSidebar(container, { onNavigate, onPlaylistSelect, onCreat
     </button>
   `;
 
-  // Event listeners
+  
   container.querySelectorAll('.nav-item').forEach((item) => {
     item.addEventListener('click', () => {
       const view = item.dataset.view;
@@ -67,6 +63,6 @@ export function renderSidebar(container, { onNavigate, onPlaylistSelect, onCreat
     createBtn.addEventListener('click', onCreatePlaylist);
   }
 
-  // Animate
+  
   slideInLeft(container);
 }

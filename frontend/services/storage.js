@@ -1,9 +1,5 @@
 import { generateId } from '../utils/helpers.js';
 
-/**
- * LocalStorage service for playlists, liked songs, preferences
- */
-
 const KEYS = {
   PLAYLISTS: 'melodyflow_playlists',
   LIKED: 'melodyflow_liked',
@@ -28,8 +24,6 @@ function save(key, value) {
     console.warn('[Storage] Save failed:', e.message);
   }
 }
-
-// ─── Playlists ──────────────────────────────────────────────
 
 export function getPlaylists() {
   return load(KEYS.PLAYLISTS, []);
@@ -64,7 +58,7 @@ export function addSongToPlaylist(playlistId, song) {
   const playlists = getPlaylists();
   const pl = playlists.find((p) => p.id === playlistId);
   if (!pl) return false;
-  // Avoid duplicates
+  
   if (pl.songs.some((s) => s.id === song.id)) return false;
   pl.songs.push({
     id: song.id,
@@ -90,8 +84,6 @@ export function getPlaylistById(id) {
   return getPlaylists().find((p) => p.id === id) || null;
 }
 
-// ─── Liked Songs ────────────────────────────────────────────
-
 export function getLikedSongs() {
   return load(KEYS.LIKED, []);
 }
@@ -102,7 +94,7 @@ export function toggleLike(song) {
   if (index >= 0) {
     liked.splice(index, 1);
     save(KEYS.LIKED, liked);
-    return false; // unliked
+    return false; 
   } else {
     liked.unshift({
       id: song.id,
@@ -113,15 +105,13 @@ export function toggleLike(song) {
       album: song.album,
     });
     save(KEYS.LIKED, liked);
-    return true; // liked
+    return true; 
   }
 }
 
 export function isLiked(songId) {
   return getLikedSongs().some((s) => s.id === songId);
 }
-
-// ─── Recently Played ────────────────────────────────────────
 
 export function getRecentlyPlayed() {
   return load(KEYS.RECENT, []);
@@ -137,11 +127,9 @@ export function addToRecentlyPlayed(song) {
     duration: song.duration,
     album: song.album,
   });
-  recent = recent.slice(0, 20); // Keep only last 20
+  recent = recent.slice(0, 20); 
   save(KEYS.RECENT, recent);
 }
-
-// ─── Theme ──────────────────────────────────────────────────
 
 export function getTheme() {
   return load(KEYS.THEME, 'melodyflow');
@@ -150,8 +138,6 @@ export function getTheme() {
 export function setTheme(theme) {
   save(KEYS.THEME, theme);
 }
-
-// ─── Volume ─────────────────────────────────────────────────
 
 export function getVolume() {
   return load(KEYS.VOLUME, 0.7);

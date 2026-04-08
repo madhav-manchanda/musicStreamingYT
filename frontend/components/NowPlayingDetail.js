@@ -3,15 +3,10 @@ import { albumArtEntrance, fadeIn, buttonPress } from '../utils/animations.js';
 import player from '../services/playerEngine.js';
 import * as storage from '../services/storage.js';
 
-/**
- * Now Playing Detail Panel
- * Shows large album art, song info, like button, and about the artist section
- * (like Spotify's right-side panel)
- */
 export function renderNowPlayingDetail(container, { onClose }) {
   _render(container, onClose);
 
-  // Listen for song changes
+  
   player.on('songchange', () => _render(container, onClose));
 }
 
@@ -77,10 +72,10 @@ function _render(container, onClose) {
     </div>
   `;
 
-  // Close button
+  
   container.querySelector('#np-close')?.addEventListener('click', onClose);
 
-  // Like button
+  
   container.querySelector('#np-like')?.addEventListener('click', (e) => {
     const liked = storage.toggleLike(song);
     const btn = container.querySelector('#np-like');
@@ -89,7 +84,7 @@ function _render(container, onClose) {
     buttonPress(btn);
   });
 
-  // Animate album art
+  
   const art = container.querySelector('#np-art');
   if (art) albumArtEntrance(art);
 }

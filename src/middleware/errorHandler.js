@@ -1,7 +1,4 @@
-/**
- * Global error handling middleware
- * Catches all errors thrown in route handlers and sends a clean JSON response
- */
+
 function errorHandler(err, req, res, _next) {
   console.error(`[Error] ${req.method} ${req.originalUrl}:`, err.message);
 
@@ -9,7 +6,7 @@ function errorHandler(err, req, res, _next) {
     console.error(err.stack);
   }
 
-  // Axios errors from upstream services
+  
   if (err.response) {
     const status = err.response.status;
     return res.status(status).json({
@@ -19,7 +16,7 @@ function errorHandler(err, req, res, _next) {
     });
   }
 
-  // Connection errors (JioSaavn API not running)
+  
   if (err.code === 'ECONNREFUSED') {
     return res.status(503).json({
       success: false,
@@ -28,7 +25,7 @@ function errorHandler(err, req, res, _next) {
     });
   }
 
-  // Timeout errors
+  
   if (err.code === 'ECONNABORTED') {
     return res.status(504).json({
       success: false,
@@ -37,7 +34,7 @@ function errorHandler(err, req, res, _next) {
     });
   }
 
-  // Default error
+  
   const statusCode = err.statusCode || 500;
   res.status(statusCode).json({
     success: false,

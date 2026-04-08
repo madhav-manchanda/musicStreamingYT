@@ -3,10 +3,6 @@ import { staggerCards, staggerTracks, fadeIn } from '../utils/animations.js';
 import * as storage from '../services/storage.js';
 import player from '../services/playerEngine.js';
 
-/**
- * Library Component
- * Tabs: Playlists, Liked Songs, Recently Played
- */
 export function renderLibrary(container, { onPlaylistSelect, onContextMenu }) {
   let activeTab = 'playlists';
 
@@ -23,7 +19,7 @@ export function renderLibrary(container, { onPlaylistSelect, onContextMenu }) {
       </div>
     `;
 
-    // Tab clicks
+    
     container.querySelectorAll('.library-tab').forEach((tab) => {
       tab.addEventListener('click', () => {
         activeTab = tab.dataset.tab;

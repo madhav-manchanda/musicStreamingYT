@@ -3,10 +3,6 @@ import { staggerTracks, albumArtEntrance, fadeIn } from '../utils/animations.js'
 import * as storage from '../services/storage.js';
 import player from '../services/playerEngine.js';
 
-/**
- * Playlist View Component
- * Shows a single playlist with header, actions, and track list
- */
 export function renderPlaylistView(container, { playlistId, onContextMenu, onBack }) {
   const playlist = storage.getPlaylistById(playlistId);
 
@@ -74,14 +70,14 @@ export function renderPlaylistView(container, { playlistId, onContextMenu, onBac
     </div>
   `;
 
-  // Play all
+  
   container.querySelector('#playlist-play-all')?.addEventListener('click', () => {
     if (playlist.songs.length > 0) {
       player.playSongList(playlist.songs, 0);
     }
   });
 
-  // Delete playlist
+  
   container.querySelector('#playlist-delete-btn')?.addEventListener('click', () => {
     if (confirm(`Delete "${playlist.name}"?`)) {
       storage.deletePlaylist(playlistId);
@@ -89,16 +85,16 @@ export function renderPlaylistView(container, { playlistId, onContextMenu, onBac
     }
   });
 
-  // Add songs
+  
   container.querySelector('#playlist-add-songs-btn')?.addEventListener('click', () => {
     if (onBack) {
-      // For now, we use the easiest way to go to search which is basically
-      // just clicking the search input or navigating to it via main.js
+      
+      
       document.getElementById('search-input')?.focus();
     }
   });
 
-  // Play individual tracks
+  
   container.querySelectorAll('.track-row').forEach((row) => {
     row.addEventListener('click', (e) => {
       if (e.target.closest('.track-remove-btn')) return;
@@ -107,7 +103,7 @@ export function renderPlaylistView(container, { playlistId, onContextMenu, onBac
     });
   });
 
-  // Remove from playlist
+  
   container.querySelectorAll('.track-remove-btn').forEach((btn) => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -117,7 +113,7 @@ export function renderPlaylistView(container, { playlistId, onContextMenu, onBac
     });
   });
 
-  // Animate
+  
   const cover = container.querySelector('#playlist-cover-art');
   if (cover) albumArtEntrance(cover);
   staggerTracks('.track-row');
