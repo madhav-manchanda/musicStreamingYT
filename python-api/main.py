@@ -1,8 +1,3 @@
-"""
-Music API — YouTube Music powered by ytmusicapi + yt-dlp
-Single unified Python service for search, song details, streaming, and trending.
-Runs on port 8000.
-"""
 import logging
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
@@ -22,7 +17,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize YTMusic
 try:
     yt = YTMusic()
     logger.info("✅ YTMusic initialized")
@@ -30,17 +24,11 @@ except Exception as e:
     logger.error(f"❌ YTMusic init failed: {e}")
     yt = None
 
-
-# ═══════════════════════════════════════════════════════════
-# Helpers
-# ═══════════════════════════════════════════════════════════
-
 def _extract_thumbnail(thumbnails):
     if not thumbnails:
         return ""
     sorted_thumbs = sorted(thumbnails, key=lambda t: t.get("width", 0), reverse=True)
     return sorted_thumbs[0].get("url", "") if sorted_thumbs else ""
-
 
 def _artists_string(artists):
     if not artists:
@@ -50,7 +38,6 @@ def _artists_string(artists):
     if isinstance(artists, list):
         return ", ".join(a.get("name", "") if isinstance(a, dict) else str(a) for a in artists)
     return str(artists)
-
 
 def _duration_seconds(duration_str):
     if not duration_str:
@@ -66,7 +53,6 @@ def _duration_seconds(duration_str):
         return int(parts[0])
     except (ValueError, IndexError):
         return 0
-
 
 def _normalize_song(item):
     video_id = item.get("videoId", "")
@@ -91,20 +77,13 @@ def _normalize_song(item):
         "permaUrl": f"https://music.youtube.com/watch?v={video_id}" if video_id else "",
     }
 
-
-# ═══════════════════════════════════════════════════════════
-# Routes
-# ═══════════════════════════════════════════════════════════
-
 @app.get("/")
 def root():
     return {"service": "music-api", "version": "2.0.0", "powered_by": "ytmusic"}
 
-
 @app.get("/ping")
 def ping():
     return {"status": "healthy", "service": "music-api"}
-
 
 @app.get("/search")
 def search_songs(q: str = Query(...), limit: int = Query(20, ge=1, le=50)):
@@ -115,7 +94,6 @@ def search_songs(q: str = Query(...), limit: int = Query(20, ge=1, le=50)):
         return [_normalize_song(r) for r in results if r.get("videoId")]
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Search failed: {str(e)}")
-
 
 @app.get("/song/get")
 def get_song(id: str = Query(..., description="YouTube video ID")):
@@ -145,7 +123,6 @@ def get_song(id: str = Query(..., description="YouTube video ID")):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to get song: {str(e)}")
-
 
 @app.get("/stream")
 def get_stream_url(id: str = Query(..., description="YouTube video ID")):
@@ -183,7 +160,6 @@ def get_stream_url(id: str = Query(..., description="YouTube video ID")):
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Stream extraction failed: {str(e)}")
-
 
 @app.get("/trending")
 def get_trending():

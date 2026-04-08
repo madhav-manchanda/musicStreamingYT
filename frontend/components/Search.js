@@ -3,10 +3,6 @@ import { staggerCards, staggerTracks, fadeIn } from '../utils/animations.js';
 import * as api from '../services/api.js';
 import player from '../services/playerEngine.js';
 
-/**
- * Search Component
- * Search results with song cards and context menu
- */
 export function renderSearch(container, { onContextMenu, searchQuery }) {
   container.innerHTML = `
     <div class="search-view">
@@ -25,7 +21,7 @@ export function renderSearch(container, { onContextMenu, searchQuery }) {
     </div>
   `;
 
-  // If there's a pre-filled query from the search bar, execute it
+  
   if (searchQuery) {
     _doSearch(searchQuery, container, onContextMenu);
   }
@@ -51,7 +47,7 @@ async function _doSearch(query, container, onContextMenu) {
 
   if (!resultsGrid) return;
 
-  // Show loading
+  
   if (placeholder) placeholder.style.display = 'none';
   resultsSection.style.display = '';
   title.textContent = `Searching for "${query}"...`;
@@ -68,7 +64,7 @@ async function _doSearch(query, container, onContextMenu) {
       return;
     }
 
-    // Cards view (top results)
+    
     resultsGrid.innerHTML = songs
       .slice(0, 5)
       .map(
@@ -86,7 +82,7 @@ async function _doSearch(query, container, onContextMenu) {
       )
       .join('');
 
-    // List view (all results)
+    
     resultsList.innerHTML = songs
       .map(
         (song, i) => `
@@ -108,7 +104,7 @@ async function _doSearch(query, container, onContextMenu) {
       )
       .join('');
 
-    // Click to play
+    
     resultsGrid.querySelectorAll('.song-card').forEach((card) => {
       card.addEventListener('click', (e) => {
         if (e.target.closest('.song-card-play')) return;
@@ -134,7 +130,7 @@ async function _doSearch(query, container, onContextMenu) {
       });
     });
 
-    // Context menu on more button
+    
     resultsList.querySelectorAll('.track-more-btn').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -143,7 +139,7 @@ async function _doSearch(query, container, onContextMenu) {
       });
     });
 
-    // Add to playlist button (context menu)
+    
     resultsList.querySelectorAll('.track-add-btn').forEach((btn) => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -160,7 +156,7 @@ async function _doSearch(query, container, onContextMenu) {
       });
     });
 
-    // Also right-click context menu
+    
     resultsGrid.querySelectorAll('.song-card').forEach((card) => {
       card.addEventListener('contextmenu', (e) => {
         e.preventDefault();

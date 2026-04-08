@@ -2,14 +2,10 @@ import { icons, getPlaceholderImage, formatDuration } from '../utils/helpers.js'
 import { staggerTracks } from '../utils/animations.js';
 import player from '../services/playerEngine.js';
 
-/**
- * Queue Component (inside right panel)
- * Shows up next tracks
- */
 export function renderQueue(container) {
   _render(container);
 
-  // Listen for changes
+  
   player.on('songchange', () => _render(container));
   player.on('queuechange', () => _render(container));
 }
@@ -46,12 +42,12 @@ function _render(container) {
     </div>
   `;
 
-  // Clear queue
+  
   container.querySelector('#queue-clear')?.addEventListener('click', () => {
     player.clearQueue();
   });
 
-  // Click to play from queue
+  
   container.querySelectorAll('.queue-track[data-queue-index]').forEach((el) => {
     el.addEventListener('click', () => {
       const idx = parseInt(el.dataset.queueIndex);

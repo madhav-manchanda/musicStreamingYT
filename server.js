@@ -7,7 +7,6 @@ const config = require('./src/config');
 const errorHandler = require('./src/middleware/errorHandler');
 const rateLimiter = require('./src/middleware/rateLimiter');
 
-// Route imports
 const searchRoutes = require('./src/routes/searchRoutes');
 const songRoutes = require('./src/routes/songRoutes');
 const albumRoutes = require('./src/routes/albumRoutes');
@@ -17,7 +16,6 @@ const homeRoutes = require('./src/routes/homeRoutes');
 
 const app = express();
 
-// ─── Python Environment Setup ──────────────────────────────────
 const PYTHON_API_DIR = path.join(__dirname, 'python-api');
 const isWin = process.platform === 'win32';
 const VENV_DIR = path.join(PYTHON_API_DIR, 'venv');
@@ -28,13 +26,9 @@ const VENV_PIP = isWin
   ? path.join(VENV_DIR, 'Scripts', 'pip.exe')
   : path.join(VENV_DIR, 'bin', 'pip3');
 
-/**
- * Ensure Python venv exists with all dependencies installed.
- * Creates a virtual environment automatically on first run.
- */
 function ensurePythonEnv() {
   const venvReadyMarker = path.join(VENV_DIR, '.installed');
-  // Check if venv python and packages are fully installed
+  
   if (fs.existsSync(venvReadyMarker)) {
     console.log('[Python] Virtual environment ready ✅');
     return true;
@@ -43,23 +37,23 @@ function ensurePythonEnv() {
   console.log('[Python] Setting up virtual environment (this may take a minute)...');
 
   try {
-    // If incomplete venv exists, remove it
+    
     if (fs.existsSync(VENV_DIR)) {
       console.log('[Python] Cleaning up incomplete virtual environment...');
       fs.rmSync(VENV_DIR, { recursive: true, force: true });
     }
 
-    // Find system python
+    
     const pyCmd = isWin ? 'python' : 'python3';
 
     console.log(`[Python] Creating fresh virtual environment using ${pyCmd}...`);
     execSync(`${pyCmd} -m venv ${VENV_DIR}`, { cwd: PYTHON_API_DIR, stdio: 'inherit' });
 
-    // Install dependencies
+    
     const reqFile = path.join(PYTHON_API_DIR, 'requirements.txt');
     if (fs.existsSync(reqFile)) {
       console.log('[Python] Installing dependencies...');
-      // Use python -m pip instead of pip binary (more reliable on Linux)
+      
       execSync(`"${VENV_PYTHON}" -m pip install -r requirements.txt`, { cwd: PYTHON_API_DIR, stdio: 'inherit' });
     }
 
@@ -76,7 +70,6 @@ function ensurePythonEnv() {
   }
 }
 
-// ─── Auto-Spawn Python API ────────────────────────────────────
 let pythonProcess = null;
 
 function startPythonApi() {
@@ -120,7 +113,6 @@ function startPythonApi() {
   });
 }
 
-// ─── Graceful Shutdown ─────────────────────────────────────────
 function cleanup() {
   if (pythonProcess) {
     console.log('[Python] Shutting down...');
@@ -134,12 +126,10 @@ process.on('SIGINT', cleanup);
 process.on('SIGTERM', cleanup);
 process.on('exit', () => { if (pythonProcess) pythonProcess.kill(); });
 
-// ─── Middleware ─────────────────────────────────────────────────
 app.use(cors(config.cors));
 app.use(express.json());
 app.use(rateLimiter);
 
-// ─── Serve Built Frontend ──────────────────────────────────────
 const distPath = path.join(__dirname, 'dist');
 app.use(express.static(distPath, {
   setHeaders: (res, path) => {
@@ -151,7 +141,6 @@ app.use(express.static(distPath, {
   }
 }));
 
-// ─── API Routes ────────────────────────────────────────────────
 app.use('/api/search', searchRoutes);
 app.use('/api/songs', songRoutes);
 app.use('/api/albums', albumRoutes);
@@ -159,7 +148,6 @@ app.use('/api/playlists', playlistRoutes);
 app.use('/api/artists', artistRoutes);
 app.use('/api/home', homeRoutes);
 
-// ─── Health Check ──────────────────────────────────────────────
 app.get('/api/health', async (_req, res) => {
   const musicService = require('./src/services/musicService');
   const health = await musicService.ping();
@@ -176,7 +164,6 @@ app.get('/api/health', async (_req, res) => {
   });
 });
 
-// ─── SPA Fallback ──────────────────────────────────────────────
 app.use((req, res, next) => {
   if (req.path.startsWith('/api/')) return next();
   const indexPath = path.join(distPath, 'index.html');
@@ -191,15 +178,12 @@ app.use((req, res, next) => {
   });
 });
 
-// ─── 404 Handler ───────────────────────────────────────────────
 app.use((_req, res) => {
   res.status(404).json({ success: false, error: 'Endpoint not found' });
 });
 
-// ─── Error Handler ─────────────────────────────────────────────
 app.use(errorHandler);
 
-// ─── Start ─────────────────────────────────────────────────────
 app.listen(config.port, () => {
   startPythonApi();
   console.log(`

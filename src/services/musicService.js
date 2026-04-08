@@ -1,10 +1,6 @@
 const axios = require('axios');
 const config = require('../config');
 
-/**
- * Music Service — communicates with the Python YTMusic API
- * Single source for all music operations: search, song details, streaming, trending.
- */
 class MusicService {
   constructor() {
     this.baseUrl = config.pythonApiUrl;
@@ -14,12 +10,7 @@ class MusicService {
     });
   }
 
-  /**
-   * Search for songs
-   * @param {string} query - Search term
-   * @param {number} limit - Max results
-   * @returns {Promise<Array>} Song array
-   */
+  
   async searchSongs(query, limit = 20) {
     try {
       const response = await this.client.get('/search', {
@@ -32,11 +23,7 @@ class MusicService {
     }
   }
 
-  /**
-   * Get a specific song by ID
-   * @param {string} songId - YouTube video ID
-   * @returns {Promise<Object|null>} Song object
-   */
+  
   async getSongById(songId) {
     try {
       const response = await this.client.get('/song/get', {
@@ -49,11 +36,7 @@ class MusicService {
     }
   }
 
-  /**
-   * Get the direct audio stream URL for a track
-   * @param {string} songId - YouTube video ID
-   * @returns {Promise<string>} Direct audio URL
-   */
+  
   async getStreamUrl(songId) {
     try {
       const response = await this.client.get('/stream', {
@@ -69,10 +52,7 @@ class MusicService {
     }
   }
 
-  /**
-   * Get trending songs
-   * @returns {Promise<Array>} Song array
-   */
+  
   async getTrending() {
     try {
       const response = await this.client.get('/trending');
@@ -83,9 +63,7 @@ class MusicService {
     }
   }
 
-  /**
-   * Health check
-   */
+  
   async ping() {
     try {
       const response = await this.client.get('/ping');

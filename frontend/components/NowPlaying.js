@@ -3,10 +3,6 @@ import { staggerCards, fadeIn } from '../utils/animations.js';
 import * as api from '../services/api.js';
 import player from '../services/playerEngine.js';
 
-/**
- * Home / NowPlaying View
- * Shows trending songs and current playback hero
- */
 export function renderHome(container, { onContextMenu, theme }) {
   const greeting = getGreeting();
   const tagline =
@@ -38,7 +34,7 @@ export function renderHome(container, { onContextMenu, theme }) {
 
   fadeIn(container.querySelector('.home-hero'), { y: 30, duration: 0.6 });
 
-  // Load trending
+  
   _loadTrending(container, onContextMenu);
 }
 
@@ -56,7 +52,7 @@ async function _loadTrending(container, onContextMenu) {
       return;
     }
 
-    // Render each category
+    
     let html = '';
     trending.forEach((category) => {
       html += `
@@ -83,12 +79,12 @@ async function _loadTrending(container, onContextMenu) {
       `;
     });
 
-    // Replace the initial grid with all sections
+    
     grid.remove();
     sectionsContainer.querySelector('.section-header').remove();
     sectionsContainer.innerHTML = html;
 
-    // Click to play
+    
     sectionsContainer.querySelectorAll('.song-card').forEach((card) => {
       card.addEventListener('click', (e) => {
         if (e.target.closest('.song-card-play')) return;

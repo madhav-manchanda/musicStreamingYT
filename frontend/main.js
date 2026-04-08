@@ -13,11 +13,6 @@ import * as storage from './services/storage.js';
 import player from './services/playerEngine.js';
 import gsap from 'gsap';
 
-/**
- * MelodyFlow / DreadFlow — Main Application
- */
-
-// ─── State ───────────────────────────────────────────────────
 const state = {
   currentView: 'home',
   currentPlaylistId: null,
@@ -25,7 +20,6 @@ const state = {
   searchQuery: '',
 };
 
-// ─── DOM Elements ────────────────────────────────────────────
 const sidebar = document.getElementById('sidebar');
 const topBar = document.getElementById('top-bar');
 const viewContainer = document.getElementById('view-container');
@@ -37,7 +31,6 @@ const modalOverlay = document.getElementById('modal-overlay');
 const contextMenu = document.getElementById('context-menu');
 const toastContainer = document.getElementById('toast-container');
 
-// ─── Theme Switcher ──────────────────────────────────────────
 const themeSwitcher = initThemeSwitcher((newTheme) => {
   _renderSidebar();
   _renderTopBar();
@@ -45,7 +38,6 @@ const themeSwitcher = initThemeSwitcher((newTheme) => {
   if (state.rightPanelOpen) _renderRightPanel();
 });
 
-// ─── Top Bar ─────────────────────────────────────────────────
 function _renderTopBar() {
   const theme = getCurrentTheme();
   const themeIcon = theme === 'dreadflow' ? icons.sun : icons.skull;
@@ -72,21 +64,21 @@ function _renderTopBar() {
     </div>
   `;
 
-  // Feedback nudge animation
+  
   const feedbackBtn = topBar.querySelector('.feedback-btn');
   const triggerNudge = () => {
     feedbackBtn.classList.add('nudge');
     setTimeout(() => feedbackBtn.classList.remove('nudge'), 2000);
   };
   
-  // Nudge every 45 seconds to encourage feedback
+  
   if (!window.feedbackInterval) {
     window.feedbackInterval = setInterval(triggerNudge, 45000);
-    // Initial nudge after 5 seconds
+    
     setTimeout(triggerNudge, 5000);
   }
 
-  // Search input
+  
   const searchInput = topBar.querySelector('#search-input');
   const debouncedSearch = debounce((query) => {
     state.searchQuery = query;
@@ -112,12 +104,12 @@ function _renderTopBar() {
     }
   });
 
-  // Theme toggle
+  
   topBar.querySelector('#theme-toggle')?.addEventListener('click', () => {
     themeSwitcher.toggle();
   });
 
-  // Back
+  
   topBar.querySelector('#nav-back')?.addEventListener('click', () => {
     if (state.currentView === 'playlist') {
       _navigate('library');
@@ -127,7 +119,6 @@ function _renderTopBar() {
   });
 }
 
-// ─── Sidebar ─────────────────────────────────────────────────
 function _renderSidebar() {
   renderSidebar(sidebar, {
     onNavigate: _navigate,
@@ -138,7 +129,6 @@ function _renderSidebar() {
   });
 }
 
-// ─── View Router ─────────────────────────────────────────────
 function _navigate(view) {
   state.currentView = view;
   state.currentPlaylistId = null;
@@ -190,7 +180,6 @@ function _openPlaylist(playlistId) {
   _renderView();
 }
 
-// ─── Right Panel (Now Playing + Queue) ───────────────────────
 function _toggleRightPanel() {
   state.rightPanelOpen = !state.rightPanelOpen;
   if (state.rightPanelOpen) {
@@ -240,7 +229,6 @@ function _renderRightPanel() {
   renderQueue(queuePanel);
 }
 
-// Auto-open right panel when a song starts playing
 player.on('songchange', () => {
   if (!state.rightPanelOpen) {
     state.rightPanelOpen = true;
@@ -252,13 +240,12 @@ player.on('songchange', () => {
       duration: 0.35,
       ease: 'power3.out',
     });
-    // Update queue toggle button
+    
     const queueToggle = playerBar.querySelector('#queue-toggle-btn');
     if (queueToggle) queueToggle.classList.add('active');
   }
 });
 
-// ─── Player Bar ──────────────────────────────────────────────
 function _renderPlayerBar() {
   renderPlayer(playerBar, {
     onQueueToggle: _toggleRightPanel,
@@ -269,7 +256,6 @@ function _renderPlayerBar() {
   });
 }
 
-// ─── Context Menu ────────────────────────────────────────────
 function _showContextMenu(event, song) {
   const playlists = storage.getPlaylists();
 
@@ -304,14 +290,14 @@ function _showContextMenu(event, song) {
     <div class="context-menu-item" data-action="create-playlist-add">${icons.plus} New Playlist with Song</div>
   `;
 
-  // Position menu
+  
   const x = Math.min(event.clientX, window.innerWidth - 220);
   const y = Math.min(event.clientY, window.innerHeight - 300);
   contextMenu.style.left = `${x}px`;
   contextMenu.style.top = `${y}px`;
   contextMenu.classList.remove('hidden');
 
-  // Actions
+  
   contextMenu.querySelectorAll('[data-action]').forEach((item) => {
     item.addEventListener('click', () => {
       const action = item.dataset.action;
@@ -350,14 +336,12 @@ function _showContextMenu(event, song) {
   });
 }
 
-// Close context menu on click outside
 document.addEventListener('click', (e) => {
   if (!contextMenu.contains(e.target)) {
     contextMenu.classList.add('hidden');
   }
 });
 
-// ─── Create Playlist Modal ──────────────────────────────────
 function _showCreatePlaylistModal() {
   modalOverlay.classList.remove('hidden');
   const input = document.getElementById('playlist-name-input');
@@ -389,7 +373,6 @@ document.getElementById('playlist-name-input')?.addEventListener('keydown', (e) 
   }
 });
 
-// ─── Keyboard Shortcuts ──────────────────────────────────────
 document.addEventListener('keydown', (e) => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
@@ -407,7 +390,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// ─── Dreadflow Custom Cursor ───────────────────────────────────
 document.addEventListener('mousemove', (e) => {
   if (getCurrentTheme() === 'dreadflow') {
     document.body.style.setProperty('--cursor-x', `${e.clientX}px`);
@@ -431,7 +413,6 @@ document.addEventListener('mouseout', (e) => {
   }
 });
 
-// ─── Initialize App ──────────────────────────────────────────
 function init() {
   _renderTopBar();
   _renderSidebar();

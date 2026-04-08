@@ -3,10 +3,6 @@ import { slideInBottom, buttonPress } from '../utils/animations.js';
 import player from '../services/playerEngine.js';
 import * as storage from '../services/storage.js';
 
-/**
- * Player Bar Component
- * Bottom bar with song info, playback controls, volume, progress, queue toggle
- */
 export function renderPlayer(container, { onQueueToggle, onSongClick, onContextMenu }) {
   container.innerHTML = `
     <div class="player-song-info" id="player-song-info">
@@ -49,7 +45,7 @@ export function renderPlayer(container, { onQueueToggle, onSongClick, onContextM
     </div>
   `;
 
-  // ─── Elements ──────────────────────────────────────────────
+  
   const playBtn = container.querySelector('#play-btn');
   const nextBtn = container.querySelector('#next-btn');
   const prevBtn = container.querySelector('#prev-btn');
@@ -69,7 +65,7 @@ export function renderPlayer(container, { onQueueToggle, onSongClick, onContextM
   const songArtist = container.querySelector('#player-song-artist');
   const queueToggle = container.querySelector('#queue-toggle-btn');
 
-  // ─── Controls ──────────────────────────────────────────────
+  
   playBtn.addEventListener('click', () => {
     buttonPress(playBtn);
     player.togglePlay();
@@ -79,14 +75,14 @@ export function renderPlayer(container, { onQueueToggle, onSongClick, onContextM
   shuffleBtn.addEventListener('click', () => { player.toggleShuffle(); });
   repeatBtn.addEventListener('click', () => { player.toggleRepeat(); });
 
-  // Progress bar seek
+  
   progressContainer.addEventListener('click', (e) => {
     const rect = progressContainer.getBoundingClientRect();
     const pct = (e.clientX - rect.left) / rect.width;
     player.seek(pct);
   });
 
-  // Volume
+  
   volumeSlider.addEventListener('click', (e) => {
     const rect = volumeSlider.getBoundingClientRect();
     const pct = (e.clientX - rect.left) / rect.width;
@@ -110,7 +106,7 @@ export function renderPlayer(container, { onQueueToggle, onSongClick, onContextM
     muted = !muted;
   });
 
-  // Like button
+  
   likeBtn.addEventListener('click', () => {
     const song = player.getCurrentSong();
     if (!song) return;
@@ -120,7 +116,7 @@ export function renderPlayer(container, { onQueueToggle, onSongClick, onContextM
     buttonPress(likeBtn);
   });
 
-  // Add to Playlist
+  
   if (addBtn) {
     addBtn.addEventListener('click', (e) => {
       const song = player.getCurrentSong();
@@ -130,19 +126,19 @@ export function renderPlayer(container, { onQueueToggle, onSongClick, onContextM
     });
   }
 
-  // Queue toggle
+  
   queueToggle.addEventListener('click', () => {
     queueToggle.classList.toggle('active');
     onQueueToggle();
   });
 
-  // Song title click
+  
   songTitle.addEventListener('click', () => {
     const song = player.getCurrentSong();
     if (song && onSongClick) onSongClick(song);
   });
 
-  // ─── Player Events ────────────────────────────────────────
+  
 
   player.on('timeupdate', ({ currentTime, duration }) => {
     const pct = duration ? (currentTime / duration) * 100 : 0;
@@ -182,7 +178,7 @@ export function renderPlayer(container, { onQueueToggle, onSongClick, onContextM
     }
   });
 
-  // Restore current state if song is already loaded
+  
   const currentSong = player.getCurrentSong();
   if (currentSong) {
     albumArt.src = currentSong.image || getPlaceholderImage();

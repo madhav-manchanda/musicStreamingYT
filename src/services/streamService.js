@@ -2,10 +2,7 @@ const axios = require('axios');
 const musicService = require('./musicService');
 
 class StreamService {
-  /**
-   * Stream audio for a song via the Python API's yt-dlp extraction.
-   * Gets the direct audio URL and proxies the stream to the client.
-   */
+  
   async streamSong(songId, req, res) {
     try {
       const mediaUrl = await musicService.getStreamUrl(songId);
@@ -25,7 +22,7 @@ class StreamService {
         timeout: 30000,
       });
 
-      // Forward headers
+      
       ['content-type', 'content-length', 'content-range', 'accept-ranges'].forEach((h) => {
         if (upstreamResponse.headers[h]) res.setHeader(h, upstreamResponse.headers[h]);
       });

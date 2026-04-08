@@ -2,10 +2,6 @@ const express = require('express');
 const router = express.Router();
 const musicService = require('../services/musicService');
 
-/**
- * GET /api/playlists?q=...
- * Search for playlist-related songs
- */
 router.get('/', async (req, res, next) => {
   try {
     const { q } = req.query;
@@ -18,9 +14,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-/**
- * GET /api/playlists/:id
- */
 router.get('/:id', async (req, res, next) => {
   try {
     const song = await musicService.getSongById(req.params.id);

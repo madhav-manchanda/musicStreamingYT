@@ -1,8 +1,4 @@
-/**
- * Format seconds to mm:ss
- * @param {number} seconds
- * @returns {string}
- */
+
 export function formatDuration(seconds) {
   if (!seconds || isNaN(seconds)) return '0:00';
   const mins = Math.floor(seconds / 60);
@@ -10,12 +6,6 @@ export function formatDuration(seconds) {
   return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
 
-/**
- * Debounce a function
- * @param {Function} fn
- * @param {number} delay
- * @returns {Function}
- */
 export function debounce(fn, delay = 300) {
   let timer;
   return function (...args) {
@@ -24,29 +14,15 @@ export function debounce(fn, delay = 300) {
   };
 }
 
-/**
- * Truncate text with ellipsis
- * @param {string} text
- * @param {number} maxLen
- * @returns {string}
- */
 export function truncate(text, maxLen = 30) {
   if (!text) return '';
   return text.length > maxLen ? text.substring(0, maxLen) + '…' : text;
 }
 
-/**
- * Generate a unique ID
- * @returns {string}
- */
 export function generateId() {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 }
 
-/**
- * Get greeting based on time of day
- * @returns {string}
- */
 export function getGreeting() {
   const hour = new Date().getHours();
   if (hour < 12) return 'Good Morning';
@@ -54,10 +30,6 @@ export function getGreeting() {
   return 'Good Evening';
 }
 
-/**
- * Get default placeholder image
- * @returns {string}
- */
 export function getPlaceholderImage() {
   return 'data:image/svg+xml,' + encodeURIComponent(
     `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
@@ -67,7 +39,6 @@ export function getPlaceholderImage() {
   );
 }
 
-/** SVG Icon helpers */
 export const icons = {
   home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
   search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',

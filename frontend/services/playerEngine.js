@@ -1,11 +1,6 @@
 import { getStreamUrl } from './api.js';
 import * as storage from './storage.js';
 
-/**
- * Audio Playback Engine
- * Manages the HTML5 Audio element, queue, and playback state.
- * Uses an event emitter pattern to notify UI components.
- */
 class PlayerEngine {
   constructor() {
     this.audio = new Audio();
@@ -16,7 +11,7 @@ class PlayerEngine {
     this.currentIndex = -1;
     this.isPlaying = false;
     this.shuffle = false;
-    this.repeat = 'off'; // 'off', 'all', 'one'
+    this.repeat = 'off'; 
     this.listeners = {};
 
     this._setupAudioEvents();
@@ -56,7 +51,7 @@ class PlayerEngine {
     });
   }
 
-  // ─── Event Emitter ────────────────────────────────────────
+  
 
   on(event, callback) {
     if (!this.listeners[event]) this.listeners[event] = [];
@@ -73,7 +68,7 @@ class PlayerEngine {
     this.listeners[event].forEach((cb) => cb(data));
   }
 
-  // ─── Playback Controls ────────────────────────────────────
+  
 
   getCurrentSong() {
     return this.queue[this.currentIndex] || null;
@@ -84,7 +79,7 @@ class PlayerEngine {
       this.queue = [song];
       this.currentIndex = 0;
     } else {
-      // Check if song already in queue
+      
       const existingIndex = this.queue.findIndex((s) => s.id === song.id);
       if (existingIndex >= 0) {
         this.currentIndex = existingIndex;
@@ -209,10 +204,10 @@ class PlayerEngine {
     this.emit('repeatchange', { repeat: this.repeat });
   }
 
-  // ─── Queue Management ────────────────────────────────────
+  
 
   addToQueue(song) {
-    // Avoid duplicates
+    
     if (!this.queue.some((s) => s.id === song.id)) {
       this.queue.push(song);
       this.emit('queuechange', { queue: this.queue });
@@ -220,7 +215,7 @@ class PlayerEngine {
   }
 
   removeFromQueue(index) {
-    if (index === this.currentIndex) return; // can't remove currently playing
+    if (index === this.currentIndex) return; 
     this.queue.splice(index, 1);
     if (index < this.currentIndex) {
       this.currentIndex--;
@@ -244,6 +239,5 @@ class PlayerEngine {
   }
 }
 
-// Singleton
 const player = new PlayerEngine();
 export default player;
